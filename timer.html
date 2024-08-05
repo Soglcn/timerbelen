@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress to Zamn OraniBoiee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .progress-container {
+            width: 80%;
+            background-color: #f3f3f3;
+            border-radius: 25px;
+            margin: 0 auto;
+        }
+        .progress-bar {
+            width: 0;
+            height: 30px;
+            background-color: #4caf50;
+            border-radius: 25px;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+        .time-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BEKLENEN AN BOIEEE!</h1>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+    <div class="time-info" id="time-info"></div>
+
+    <script>
+        function updateProgressBar() {
+            const now = new Date();
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+            const currentSeconds = now.getSeconds();
+
+            // 5:30 PM in 24-hour format is 17:30
+            const targetHours = 17;
+            const targetMinutes = 30;
+            const targetSeconds = 0;
+
+            // Calculate the total seconds from midnight for current time and target time
+            const totalCurrentSeconds = (currentHours * 3600) + (currentMinutes * 60) + currentSeconds;
+            const totalTargetSeconds = (targetHours * 3600) + (targetMinutes * 60) + targetSeconds;
+
+            // Calculate the total seconds from midnight to the target time
+            const secondsInDay = 24 * 3600;
+            const secondsUntilTarget = totalTargetSeconds >= totalCurrentSeconds
+                ? totalTargetSeconds - totalCurrentSeconds
+                : secondsInDay - totalCurrentSeconds + totalTargetSeconds;
+
+            // Calculate the percentage of time elapsed until 5:30 PM
+            const elapsedSeconds = totalTargetSeconds - totalCurrentSeconds;
+            const percentage = (elapsedSeconds / (totalTargetSeconds)) * 100;
+
+            // Update the progress bar and time info
+            const progressBar = document.getElementById('progress-bar');
+            const timeInfo = document.getElementById('time-info');
+
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = Math.max(0, Math.min(Math.floor(percentage), 100)) + '%';
+
+            const remainingHours = Math.floor(secondsUntilTarget / 3600);
+            const remainingMinutes = Math.floor((secondsUntilTarget % 3600) / 60);
+            const remainingSecs = secondsUntilTarget % 60;
+
+            timeInfo.textContent = `Time remaining: ${remainingHours}h ${remainingMinutes}m ${remainingSecs}s`;
+        }
+
+        // Update the progress bar every second
+        setInterval(updateProgressBar, 1000);
+    </script>
+</body>
+</html>
