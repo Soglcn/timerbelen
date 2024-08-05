@@ -3,82 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress to Zamn OraniBoiee</title>
+    <title>Progress</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
         }
-        .progress-container {
+        .progress-bar {
             width: 80%;
             background-color: #f3f3f3;
             border-radius: 25px;
-            margin: 0 auto;
+            overflow: hidden;
+            margin-top: 20px;
         }
-        .progress-bar {
-            width: 0;
+        .progress-bar-fill {
             height: 30px;
             background-color: #4caf50;
-            border-radius: 25px;
             text-align: center;
             line-height: 30px;
             color: white;
-        }
-        .time-info {
-            margin-top: 20px;
+            width: 0%;
+            transition: width 0.5s;
         }
     </style>
 </head>
 <body>
-    <h1>BEKLENEN AN BOIEEE!</h1>
-    <div class="progress-container">
-        <div class="progress-bar" id="progress-bar">0%</div>
+    <h1>cCc YOZGADIUS 666 cCc ÜŞENMEYEN BOIEEE!</h1>
+    <div class="progress-bar">
+        <div class="progress-bar-fill">0%</div>
     </div>
-    <div class="time-info" id="time-info"></div>
+    <p id="time-remaining">Time remaining: </p>
 
     <script>
         function updateProgressBar() {
-            const now = new Date();
-            const currentHours = now.getHours();
-            const currentMinutes = now.getMinutes();
-            const currentSeconds = now.getSeconds();
+            // İstanbul saat dilimini kullanarak mevcut saati al
+            const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
+            const target = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
+            target.setHours(17, 30, 0, 0); // Hedef zaman 17:30
 
-            // 5:30 PM in 24-hour format is 17:30
-            const targetHours = 17;
-            const targetMinutes = 30;
-            const targetSeconds = 0;
+            const startOfDay = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
+            startOfDay.setHours(7, 30, 0, 0); // Günün başlangıcı 07:30
 
-            // Calculate the total seconds from midnight for current time and target time
-            const totalCurrentSeconds = (currentHours * 3600) + (currentMinutes * 60) + currentSeconds;
-            const totalTargetSeconds = (targetHours * 3600) + (targetMinutes * 60) + targetSeconds;
+            const totalDayTime = target - startOfDay; // Günün toplam süresi
+            const elapsedTime = now - startOfDay; // Geçen süre
 
-            // Calculate the total seconds from midnight to the target time
-            const secondsInDay = 24 * 3600;
-            const secondsUntilTarget = totalTargetSeconds >= totalCurrentSeconds
-                ? totalTargetSeconds - totalCurrentSeconds
-                : secondsInDay - totalCurrentSeconds + totalTargetSeconds;
+            const progressPercentage = (elapsedTime / totalDayTime) * 100;
+            const remainingTime = target - now;
 
-            // Calculate the percentage of time elapsed until 5:30 PM
-            const elapsedSeconds = totalTargetSeconds - totalCurrentSeconds;
-            const percentage = (elapsedSeconds / (totalTargetSeconds)) * 100;
+            const progressBarFill = document.querySelector('.progress-bar-fill');
+            progressBarFill.style.width = progressPercentage + '%';
+            progressBarFill.textContent = Math.round(progressPercentage) + '%';
 
-            // Update the progress bar and time info
-            const progressBar = document.getElementById('progress-bar');
-            const timeInfo = document.getElementById('time-info');
-
-            progressBar.style.width = percentage + '%';
-            progressBar.textContent = Math.max(0, Math.min(Math.floor(percentage), 100)) + '%';
-
-            const remainingHours = Math.floor(secondsUntilTarget / 3600);
-            const remainingMinutes = Math.floor((secondsUntilTarget % 3600) / 60);
-            const remainingSecs = secondsUntilTarget % 60;
-
-            timeInfo.textContent = `Time remaining: ${remainingHours}h ${remainingMinutes}m ${remainingSecs}s`;
+            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            document.getElementById('time-remaining').textContent = 
+                `Time remaining: ${hours}h ${minutes}m ${seconds}s`;
         }
 
-        // Update the progress bar every second
         setInterval(updateProgressBar, 1000);
+        updateProgressBar(); // Sayfa yüklenir yüklenmez ilerleme çubuğunu güncelle
     </script>
 </body>
 </html>
