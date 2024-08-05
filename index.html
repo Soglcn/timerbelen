@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress</title>
+    <title>666 BOIEEE 666</title>
     <style>
         body {
             display: flex;
@@ -12,44 +12,123 @@
             justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 0;
         }
         .progress-bar {
             width: 80%;
-            background-color: #f3f3f3;
-            border-radius: 25px;
+            background-color: #666666;
+            border-radius: 5px;
             overflow: hidden;
             margin-top: 20px;
+            position: relative;
         }
         .progress-bar-fill {
             height: 30px;
-            background-color: #4caf50;
+            background-color: #0398fc;
             text-align: center;
             line-height: 30px;
-            color: white;
+            color: #0398fc;
             width: 0%;
             transition: width 0.5s;
         }
+        .marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #a5fc03;
+            opacity: 0;
+        }
+        .break-marker {
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            bottom: 0;
+            height: 100%;
+            background-color: #a5fc03;
+            opacity: 0.75;
+        }
+        #percentage {
+            font-size: 2rem;
+            margin-top: 10px;
+        }
+        .legend {
+            margin-top: 20px;
+            font-size: 10pt;
+            display: flex;
+            align-items: center;
+        }
+        .legend-item {
+            margin: 0 10px;
+            display: flex;
+            align-items: center;
+        }
+        .legend-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 5%;
+            margin-right: 5px;
+        }
+        .pleasant { background-color: #0398fc; }
+        .freedom { background-color: #a5fc03; }
     </style>
 </head>
 <body>
-    <h1>cCc YOZGADIUS 666 cCc ÜŞENMEYEN BOIEEE!</h1>
     <div class="progress-bar">
         <div class="progress-bar-fill">0%</div>
+        <!-- İşaretçilerin yerleşimi -->
+        <div class="break-marker" id="break-1"></div>
+        <div class="break-marker" id="break-2"></div>
+        <div class="break-marker" id="break-3"></div>
+        <div class="marker" id="marker-915"></div>
+        <div class="marker" id="marker-930"></div>
+        <div class="marker" id="marker-1200"></div>
+        <div class="marker" id="marker-1315"></div>
+        <div class="marker" id="marker-1500"></div>
+        <div class="marker" id="marker-1530"></div>
     </div>
+    <h1 id="percentage">0%</h1>
     <p id="time-remaining">Time remaining: </p>
+    <p id="next-break">Next break: </p>
+    
+    <div class="legend">
+<div class="legend-item">
+    <div class="legend-color pleasant"></div>
+    This color is so chill, it might just make you question your entire life. Embrace it, filthy peasant!
+</div>
+<div class="legend-item">
+    <div class="legend-color freedom"></div>
+    This shade screams "freedom," or at least until your next existential crisis hits. Enjoy the moment!
+</div>
+
+    </div>
 
     <script>
+        const breaks = [
+            { start: "09:15", end: "09:30" },
+            { start: "12:00", end: "13:15" },
+            { start: "15:00", end: "15:30" }
+        ];
+
+        function calculatePercentage(hour, minute) {
+            const totalMinutes = (hour - 7) * 60 + minute - 30;
+            const totalDayMinutes = (17 - 7) * 60;
+            return (totalMinutes / totalDayMinutes) * 100;
+        }
+
         function updateProgressBar() {
-            // İstanbul saat dilimini kullanarak mevcut saati al
             const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
             const target = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
-            target.setHours(17, 30, 0, 0); // Hedef zaman 17:30
+            target.setHours(17, 30, 0, 0);
 
             const startOfDay = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
-            startOfDay.setHours(7, 30, 0, 0); // Günün başlangıcı 07:30
+            startOfDay.setHours(7, 30, 0, 0);
 
-            const totalDayTime = target - startOfDay; // Günün toplam süresi
-            const elapsedTime = now - startOfDay; // Geçen süre
+            const totalDayTime = target - startOfDay;
+            const elapsedTime = now - startOfDay;
 
             const progressPercentage = (elapsedTime / totalDayTime) * 100;
             const remainingTime = target - now;
@@ -57,16 +136,64 @@
             const progressBarFill = document.querySelector('.progress-bar-fill');
             progressBarFill.style.width = progressPercentage + '%';
             progressBarFill.textContent = Math.round(progressPercentage) + '%';
+            document.getElementById('percentage').textContent = Math.round(progressPercentage) + '%';
 
             const hours = Math.floor(remainingTime / (1000 * 60 * 60));
             const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
             document.getElementById('time-remaining').textContent = 
                 `Time remaining: ${hours}h ${minutes}m ${seconds}s`;
+
+            let nextBreakText = "No more breaks, counting down to end of day.";
+            for (const brk of breaks) {
+                const [startHour, startMinute] = brk.start.split(':').map(Number);
+                const [endHour, endMinute] = brk.end.split(':').map(Number);
+                const breakStart = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
+                breakStart.setHours(startHour, startMinute, 0, 0);
+                const breakEnd = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul" }));
+                breakEnd.setHours(endHour, endMinute, 0, 0);
+
+                if (now >= breakStart && now <= breakEnd) {
+                    const breakRemaining = breakEnd - now;
+                    const breakHours = Math.floor(breakRemaining / (1000 * 60 * 60));
+                    const breakMinutes = Math.floor((breakRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const breakSeconds = Math.floor((breakRemaining % (1000 * 60)) / 1000);
+                    nextBreakText = `In break: ${breakHours}h ${breakMinutes}m ${breakSeconds}s remaining`;
+                    break;
+                } else if (now < breakStart) {
+                    const breakRemaining = breakStart - now;
+                    const breakHours = Math.floor(breakRemaining / (1000 * 60 * 60));
+                    const breakMinutes = Math.floor((breakRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const breakSeconds = Math.floor((breakRemaining % (1000 * 60)) / 1000);
+                    nextBreakText = `Next break at ${brk.start}: ${breakHours}h ${breakMinutes}m ${breakSeconds}s remaining`;
+                    break;
+                }
+            }
+
+            document.getElementById('next-break').textContent = nextBreakText;
         }
 
+        function setMarkerPosition() {
+            document.getElementById('marker-915').style.left = calculatePercentage(9, 15) + '%';
+            document.getElementById('marker-930').style.left = calculatePercentage(9, 30) + '%';
+            document.getElementById('marker-1200').style.left = calculatePercentage(12, 0) + '%';
+            document.getElementById('marker-1315').style.left = calculatePercentage(13, 15) + '%';
+            document.getElementById('marker-1500').style.left = calculatePercentage(15, 0) + '%';
+            document.getElementById('marker-1530').style.left = calculatePercentage(15, 30) + '%';
+
+            // Break markers
+            document.getElementById('break-1').style.left = calculatePercentage(9, 15) + '%';
+            document.getElementById('break-1').style.width = (calculatePercentage(9, 30) - calculatePercentage(9, 15)) + '%';
+            document.getElementById('break-2').style.left = calculatePercentage(12, 0) + '%';
+            document.getElementById('break-2').style.width = (calculatePercentage(13, 15) - calculatePercentage(12, 0)) + '%';
+            document.getElementById('break-3').style.left = calculatePercentage(15, 0) + '%';
+            document.getElementById('break-3').style.width = (calculatePercentage(15, 30) - calculatePercentage(15, 0)) + '%';
+        }
+
+        setMarkerPosition();
         setInterval(updateProgressBar, 1000);
-        updateProgressBar(); // Sayfa yüklenir yüklenmez ilerleme çubuğunu güncelle
+        updateProgressBar();
     </script>
 </body>
 </html>
+
