@@ -27,10 +27,10 @@
         }
         .progress-bar-fill {
             height: 30px;
-            background-color:  #a5fc03;
+            background-color: #0398fc;
             text-align: center;
             line-height: 30px;
-            color:  #a5fc03;
+            color: #0398fc;
             width: 0%;
             transition: width 0.5s;
         }
@@ -72,7 +72,7 @@
             border-radius: 5%;
             margin-right: 5px;
         }
-        .pleasant { background-color:  #a5fc03; }
+        .pleasant { background-color: #0398fc; }
         .freedom { background-color: #a5fc03; }
     </style>
 </head>
@@ -87,18 +87,29 @@
         <div class="marker" id="marker-930"></div>
         <div class="marker" id="marker-1200"></div>
         <div class="marker" id="marker-1315"></div>
-        <div class="marker" id="marker-1515"></div> <!-- Güncellenen zaman -->
+        <div class="marker" id="marker-1500"></div>
         <div class="marker" id="marker-1530"></div>
     </div>
     <h1 id="percentage">0%</h1>
     <p id="time-remaining">Time remaining: </p>
     <p id="next-break">Next break: </p>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color pleasant"></div>
+            This color is so chill, it might just make you question your entire life. Embrace it, filthy peasant!
+        </div>
+        <div class="legend-item">
+            <div class="legend-color freedom"></div>
+            This shade screams "freedom," or at least until your next existential crisis hits. Enjoy the moment!
+        </div>
+    </div>
 
     <script>
         const breaks = [
             { start: "09:15", end: "09:30" },
             { start: "12:00", end: "13:15" },
-            { start: "15:15", end: "15:30" } // Mola süresi güncellendi
+            { start: "15:00", end: "15:15" } // 15:00-15:15 arası mola süresi güncellendi
         ];
 
         function calculatePercentage(hour, minute) {
@@ -166,8 +177,8 @@
             document.getElementById('marker-930').style.left = calculatePercentage(9, 30) + '%';
             document.getElementById('marker-1200').style.left = calculatePercentage(12, 0) + '%';
             document.getElementById('marker-1315').style.left = calculatePercentage(13, 15) + '%';
-            document.getElementById('marker-1515').style.left = calculatePercentage(15, 15) + '%'; // Güncellenen saat
-            document.getElementById('marker-1530').style.left = calculatePercentage(15, 30) + '%';
+            document.getElementById('marker-1500').style.left = calculatePercentage(15, 0) + '%';
+            document.getElementById('marker-1530').style.left = calculatePercentage(15, 15) + '%'; // Yeni bitiş saati
         }
 
         function setBreakMarkerWidths() {
@@ -175,8 +186,8 @@
             document.getElementById('break-1').style.width = (calculatePercentage(9, 30) - calculatePercentage(9, 15)) + '%';
             document.getElementById('break-2').style.left = calculatePercentage(12, 0) + '%';
             document.getElementById('break-2').style.width = (calculatePercentage(13, 15) - calculatePercentage(12, 0)) + '%';
-            document.getElementById('break-3').style.left = calculatePercentage(15, 15) + '%'; // Güncellenen saat
-            document.getElementById('break-3').style.width = (calculatePercentage(15, 30) - calculatePercentage(15, 15)) + '%';
+            document.getElementById('break-3').style.left = calculatePercentage(15, 0) + '%';
+            document.getElementById('break-3').style.width = (calculatePercentage(15, 15) - calculatePercentage(15, 0)) + '%'; // Yeni bitiş saati
         }
 
         document.addEventListener('DOMContentLoaded', () => {
